@@ -26,7 +26,7 @@ setup(
     url="https://github.com/realgam3/actions-playground",
     zip_safe=False,
     classifiers=[
-        'Environment :: Web Environment'
+        'Environment :: Web Environment',
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
@@ -43,7 +43,7 @@ setup(
         'Programming Language :: Python :: 3.12',
         "Programming Language :: Python :: 3 :: Only",
         'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy'
+        'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development :: Libraries',
     ],
