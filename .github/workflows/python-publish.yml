@@ -1,7 +1,9 @@
-name: Upload Python Package
+name: Upload Docker Image
 
 on:
   push:
+    branches:
+      - '**'
     tags:
       - 'v[0-9]+.[0-9]+.*'  # Trigger on tags like v1.0, 2.3, etc.
 
@@ -11,27 +13,26 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install wheel
+      - name: Login
+        run: docker login -u "${{ secrets.USERNAME }}" -p "${{ secrets.TOKEN }}"
 
       - name: Build
-        run: python setup.py sdist bdist_wheel
+        run: |
+          DOCKER_IMAGE_TAG="${GITHUB_REPOSITORY}:${GITHUB_REF_NAME}"
+          docker build -t "$DOCKER_IMAGE_TAG" .
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+              docker tag "$DOCKER_IMAGE_TAG" "${GITHUB_REPOSITORY}:latest"
+          fi
 
-      - name: Publish package
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
+      - name: Publish Docker image
+        run: |
+          DOCKER_IMAGE_TAG="${GITHUB_REPOSITORY}:${GITHUB_REF_NAME}"
+          docker push "$DOCKER_IMAGE_TAG"
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+              docker push "${GITHUB_REPOSITORY}:latest"
+          fi
