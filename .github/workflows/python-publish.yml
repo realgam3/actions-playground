@@ -13,8 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-    container:
-      image: python:3.12-slim
 
     steps:
       - name: Checkout code
