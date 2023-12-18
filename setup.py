@@ -7,7 +7,7 @@ __folder__ = path.abspath(path.dirname(__file__))
 
 setup(
     name="actions-playground",
-    version="0.1.3",
+    version="0.1.4",
     description="actions-playground",
     long_description="actions-playground",
     long_description_content_type='text/markdown',
